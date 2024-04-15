@@ -340,3 +340,9 @@ https://youtu.be/TIfaJ7jkS3M?feature=shared
 ##  Diagrama de Classe de entidades e Diagrama de relacionamento:
 
 Imagens estão na pasta Documentação.
+
+## Link do Cronograma no formato Trello:
+
+https://trello.com/b/SHiFbs5O/challenge-targetcustomer-sprint-1-15-04
+
+
