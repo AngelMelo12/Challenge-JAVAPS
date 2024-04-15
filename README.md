@@ -1,10 +1,12 @@
 # TargetCustomer
 
+Todos os endpoints estão disponíveis em uma coleção para teste via Postman. Utilizando o arquivo endpoints-postman.json localizado na pasta raíz do projeto.
+
 ## Endpoints
 
 ### Cadastro
 
-GET /cadastros
+GET /cadastro
 
 Lista todas as cadastros cadastradas no sistema.
 
@@ -14,16 +16,16 @@ Lista todas as cadastros cadastradas no sistema.
 ---
 GET /cadastro/{id}
 
-Retorna os detalhes de uma cadastro com o 'id' informado.
+Retorna os detalhes de um cadastro com o 'id' informado.
 
 *Códigos de status*
 200 sucesso
 404 id não encontrado
 
 ---
-POST/cadastro
+POST /cadastro
 
-Cadastrar uma nova cadastro.
+Cadastrar uma nova empresa.
 
 | campo       | tipo   | obrigatório | descrição 
 |-------------|--------|-----------|-----------
@@ -39,7 +41,6 @@ Cadastrar uma nova cadastro.
 }
 ```
 
-
 *Códigos de status*
 201 criado com sucesso
 400 validação falhou
@@ -47,7 +48,7 @@ Cadastrar uma nova cadastro.
 ---
 DELETE /cadastro/{id}
 
-Apaga a cadastro com o 'id' informado.
+Apaga o cadastro com o 'id' informado.
 
 *Códigos de status*
 204 apagado com sucesso
@@ -56,7 +57,7 @@ Apaga a cadastro com o 'id' informado.
 ---
 PUT /cadastro/{id}
 
-Altera a cadastro com o 'id' informado.
+Altera o cadastro com o 'id' informado.
 
 | campo | tipo | obrigatório | descrição 
 |-------|------|-------------|-----------
@@ -79,3 +80,238 @@ Altera a cadastro com o 'id' informado.
 }
 ```
 
+### E-mail
+
+GET /email
+
+Lista todos os e-mails cadastrados no sistema.
+
+*Códigos de status*
+200 sucesso
+
+---
+GET /email/{id}
+
+Retorna os detalhes de um e-mail com o 'id' informado.
+
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+
+---
+POST /email
+
+Cadastrar um novo e-mail.
+
+| campo      | tipo   | obrigatório | descrição 
+|------------|--------|-----------|-----------
+| idCadastro | long   | sim       | id do cadastro 
+| email      | string | sim       | e-mail para ser cadastrado 
+
+```json
+{
+  "idCadastro":1,
+  "email":"meuemail@email.com"
+}
+```
+
+*Códigos de status*
+201 criado com sucesso
+400 validação falhou
+
+---
+DELETE /email/{id}
+
+Apaga o e-mail com o 'id' informado.
+
+*Códigos de status*
+204 apagado com sucesso
+404 id não encontrado
+
+---
+PUT /email/{id}
+
+Altera a e-mail com o 'id' informado.
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|-------------|-----------
+| idCadastro | long   | sim       | id do cadastro 
+| email      | string | sim       | e-mail para ser atualizado 
+
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+400 validação falhou
+
+*Scheme
+
+```json
+{
+  "idCadastro":1,
+  "email":"meunovoemail@email.com"
+}
+```
+
+### Endereço
+
+GET /endereco
+
+Lista todos os endereços cadastrados no sistema.
+
+*Códigos de status*
+200 sucesso
+
+---
+GET /endereco/{id}
+
+Retorna os detalhes de um endereço com o 'id' informado.
+
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+
+---
+POST /endereco
+
+Cadastrar um novo endereço.
+
+| campo      | tipo   | obrigatório | descrição 
+|------------|--------|-----------|-----------
+| idCadastro | long   | sim       | id do cadastro 
+| logradouro | long   | sim       | número de lougradouro 
+| cep        | long   | sim       | número de cep
+| descricaoPontoDeReferencia | string | sim       | descrição do ponto de referência do endereço
+
+```json
+{
+  "idCadastro":1,
+  "logradouro":123,
+  "cep":123,
+  "descricaoPontoDeReferencia":"Descricao"
+}
+```
+
+*Códigos de status*
+201 criado com sucesso
+400 validação falhou
+
+---
+DELETE /endereco/{id}
+
+Apaga o endereço com o 'id' informado.
+
+*Códigos de status*
+204 apagado com sucesso
+404 id não encontrado
+
+---
+PUT /endereco/{id}
+
+Altera o endereço com o 'id' informado.
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|-------------|-----------
+| idCadastro | long   | sim       | id do cadastro 
+| logradouro | long   | sim       | número de lougradouro 
+| cep        | long   | sim       | número de cep
+| descricaoPontoDeReferencia | string | sim       | descrição do ponto de referência do endereço
+
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+400 validação falhou
+
+*Scheme
+
+```json
+{
+  "idCadastro":1,
+  "logradouro":123,
+  "cep":123,
+  "descricaoPontoDeReferencia":"Descricao"
+}
+```
+
+### Telefone
+
+GET /telefone
+
+Lista todos os telefones cadastrados no sistema.
+
+*Códigos de status*
+200 sucesso
+
+---
+GET /telefone/{id}
+
+Retorna os detalhes de um telefone com o 'id' informado.
+
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+
+---
+POST /telefone
+
+Cadastrar um novo endereço.
+
+| campo        | tipo   | obrigatório | descrição 
+|--------------|--------|-----------|-----------
+| idCadastro   | long   | sim       | id do cadastro 
+| ddi          | long   | sim       | ddi do número de telefone 
+| ddd          | long   | sim       | ddd do número de telefone
+| telefone     | long   | sim       | número de telefone completo
+| tipoTelefone | string | sim       | origem do telefone (Celular, Fixo, etc.)
+
+```json
+{
+  "idCadastro":1,
+  "ddi":55,
+  "ddd":11,
+  "telefone":123456789,
+  "tipoTelefone":"CELULAR"
+}
+```
+
+*Códigos de status*
+201 criado com sucesso
+400 validação falhou
+
+---
+DELETE /telefone/{id}
+
+Apaga o telefone com o 'id' informado.
+
+*Códigos de status*
+204 apagado com sucesso
+404 id não encontrado
+
+---
+PUT /telefone/{id}
+
+Altera o telefone com o 'id' informado.
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|-------------|-----------
+| idCadastro   | long   | sim       | id do cadastro 
+| ddi          | long   | sim       | ddi do número de telefone 
+| ddd          | long   | sim       | ddd do número de telefone
+| telefone     | long   | sim       | número de telefone completo
+| tipoTelefone | string | sim       | origem do telefone (Celular, Fixo, etc.)
+
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+400 validação falhou
+
+*Scheme
+
+```json
+{
+  "idCadastro":1,
+  "ddi":55,
+  "ddd":11,
+  "telefone":123456789,
+  "tipoTelefone":"CELULAR"
+}
+```
