@@ -333,3 +333,6 @@ Altera o telefone com o 'id' informado.
   "tipoTelefone":"CELULAR"
 }
 ```
+
+## Link do vídeo de apresentação na nossa Proposta tecnológica: 
+https://youtu.be/TIfaJ7jkS3M?feature=shared
