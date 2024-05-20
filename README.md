@@ -385,7 +385,7 @@ Altera o consulta com o 'id' informado.
 
 ```json
 {
-  "descricaoConsulta":"Consulta do produto X"
+  "descricao":"Consulta do produto X"
 }
 ```
 *Códigos de status*
