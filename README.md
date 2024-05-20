@@ -153,7 +153,6 @@ Altera a e-mail com o 'id' informado.
 
 | campo | tipo | obrigatório | descrição 
 |-------|------|-------------|-----------
-| idCadastro | long   | sim       | id do cadastro 
 | email      | string | sim       | e-mail para ser atualizado 
 
 *Códigos de status*
@@ -165,7 +164,6 @@ Altera a e-mail com o 'id' informado.
 
 ```json
 {
-  "idCadastro":1,
   "email":"meunovoemail@email.com"
 }
 ```
@@ -229,7 +227,6 @@ Altera o endereço com o 'id' informado.
 
 | campo | tipo | obrigatório | descrição 
 |-------|------|-------------|-----------
-| idCadastro | long   | sim       | id do cadastro 
 | logradouro | long   | sim       | número de lougradouro 
 | cep        | long   | sim       | número de cep
 | descricaoPontoDeReferencia | string | sim       | descrição do ponto de referência do endereço
@@ -243,7 +240,6 @@ Altera o endereço com o 'id' informado.
 
 ```json
 {
-  "idCadastro":1,
   "logradouro":123,
   "cep":123,
   "descricaoPontoDeReferencia":"Descricao"
@@ -311,7 +307,6 @@ Altera o telefone com o 'id' informado.
 
 | campo | tipo | obrigatório | descrição 
 |-------|------|-------------|-----------
-| idCadastro   | long   | sim       | id do cadastro 
 | ddi          | long   | sim       | ddi do número de telefone 
 | ddd          | long   | sim       | ddd do número de telefone
 | telefone     | long   | sim       | número de telefone completo
@@ -322,17 +317,82 @@ Altera o telefone com o 'id' informado.
 404 id não encontrado
 400 validação falhou
 
-*Scheme
-
 ```json
 {
-  "idCadastro":1,
   "ddi":55,
   "ddd":11,
   "telefone":123456789,
   "tipoTelefone":"CELULAR"
 }
 ```
+
+### Consulta
+
+GET /consulta
+
+Lista todos as consultas cadastrados no sistema.
+
+*Códigos de status*
+200 sucesso
+
+---
+GET /consulta/{id}
+
+Retorna os detalhes de uma consulta com o 'id' informado.
+
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+
+---
+POST /consulta
+
+Cadastrar uma nova consulta.
+
+| campo        | tipo   | obrigatório | descrição 
+|--------------|--------|-----------|-----------
+| idCadastro   | long   | sim       | id do cadastro 
+| descricaoConsulta          | String | sim       | breve descrição da consulta 
+
+```json
+{
+  "idCadastro":1,
+  "descricaoConsulta":"Consulta do produto X"
+}
+```
+
+*Códigos de status*
+201 criado com sucesso
+400 validação falhou
+
+---
+DELETE /consulta/{id}
+
+Apaga o consulta com o 'id' informado.
+
+*Códigos de status*
+204 apagado com sucesso
+404 id não encontrado
+
+---
+PUT /consulta/{id}
+
+Altera o consulta com o 'id' informado.
+
+| campo        | tipo   | obrigatório | descrição 
+|--------------|--------|-----------|-----------
+| descricaoConsulta          | String | sim       | breve descrição da consulta 
+
+```json
+{
+  "descricaoConsulta":"Consulta do produto X"
+}
+```
+*Códigos de status*
+200 sucesso
+404 id não encontrado
+400 validação falhou
+
 
 ## Link do vídeo de apresentação na nossa Proposta tecnológica: 
 https://youtu.be/TIfaJ7jkS3M?feature=shared

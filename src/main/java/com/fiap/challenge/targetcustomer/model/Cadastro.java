@@ -9,7 +9,7 @@ import lombok.ToString;
 import java.util.List;
 
 @Entity
-@Table(name = "T_TG_CADSASTRO")
+@Table(name = "T_TC_CADSASTRO")
 @Data
 @ToString
 public class Cadastro {

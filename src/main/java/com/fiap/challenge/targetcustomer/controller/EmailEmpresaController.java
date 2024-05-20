@@ -1,93 +1,99 @@
 package com.fiap.challenge.targetcustomer.controller;
 
-import com.fiap.challenge.targetcustomer.model.Cadastro;
-import com.fiap.challenge.targetcustomer.model.EmailEmpresa;
 import com.fiap.challenge.targetcustomer.model.EmailEmpresa;
 import com.fiap.challenge.targetcustomer.model.dto.EmailEmpresaDTO;
-import com.fiap.challenge.targetcustomer.repository.CadastroRepository;
-import com.fiap.challenge.targetcustomer.repository.EmailEmpresaRepository;
-import com.fiap.challenge.targetcustomer.repository.EmailEmpresaRepository;
+import com.fiap.challenge.targetcustomer.model.dto.EmailEmpresaUpdateDTO;
+import com.fiap.challenge.targetcustomer.service.EmailEmpresaService;
+import com.fiap.challenge.targetcustomer.utils.URIBuilder;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("email")
+@CacheConfig(cacheNames = "emailsEmpresas")
 @Slf4j
 public class EmailEmpresaController {
 
     @Autowired
-    private EmailEmpresaRepository emailEmpresaRepository;
-
-    @Autowired
-    private CadastroRepository cadastroRepository;
-
+    private EmailEmpresaService emailEmpresaService;
 
     @GetMapping
-    public List<EmailEmpresa> index() {
-        return emailEmpresaRepository.findAll();
+    @Cacheable
+    @Operation(summary = "Lista todos os e-mails", description = "Endpoint retorna de forma paginada todos os e-mails, por padrão cada pagina contém 10 e-mails, porém estes dados são parametrizáveis.")
+    public ResponseEntity<Page<EmailEmpresa>> index(@ParameterObject @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(emailEmpresaService.index(pageable));
     }
 
     @PostMapping
-    @ResponseStatus(CREATED)
-    public EmailEmpresa create(@RequestBody @Valid EmailEmpresaDTO emailEmpresaRequest) {
+    @Transactional
+    @CacheEvict(allEntries = true)
+    @Operation(summary = "Cria um novo e-mail no sistema", description = "Endpoint recebe no corpo da requisição os dados necessários para realizar um novo e-mail")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados"),
+            @ApiResponse(responseCode = "201", description = "E-mail criado com sucesso!")
+    })
+    public ResponseEntity<EmailEmpresa> create(@RequestBody @Valid EmailEmpresaDTO emailEmpresaRequest) {
         log.info("Cadastrando empresa: {}", emailEmpresaRequest);
-        var emailEmpresa = EmailEmpresaDTO.toEmailEmpresa(emailEmpresaRequest);
-        var cadastro = cadastroRepository.findById(emailEmpresaRequest.getIdCadastro())
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cadastro não encontrado" )
-                );
-
-        emailEmpresa.setCadastro(cadastro);
-        return emailEmpresaRepository.save(emailEmpresa);
+        var emailEmpresa = emailEmpresaService.create(emailEmpresaRequest);
+        return ResponseEntity
+                .created(URIBuilder.createFromId(emailEmpresa.getId()))
+                .build();
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Exibe os detalhes do e-mail de id equivalente", description = "Endpoint retorna dados de um e-mail")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "E-mail não encontrado"),
+            @ApiResponse(responseCode = "200", description = "E-mail detalhado com sucesso!")
+    })
     public ResponseEntity<EmailEmpresa> get(@PathVariable Long id) {
         log.info("Buscar por id: {}", id);
 
-        return emailEmpresaRepository
-                .findById(id)
+        return emailEmpresaService
+                .get(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
 
     @DeleteMapping("{id}")
-    @ResponseStatus(NO_CONTENT)
-    public void destroy(@PathVariable Long id) {
+    @CacheEvict(allEntries = true)
+    @Operation(summary = "Deleta um e-mail do sistema", description = "Endpoint recebe no path o id do e-mail a ser deletado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "E-mail não encontrado"),
+            @ApiResponse(responseCode = "204", description = "E-mail removido com sucesso!")
+    })
+    public ResponseEntity<Object> destroy(@PathVariable Long id) {
         log.info("Apagando e-mail id: {}", id);
-        verificarSeExisteEmailEmpresa(id);
-        emailEmpresaRepository.deleteById(id);
+        emailEmpresaService.destroy(id);
+        return ResponseEntity.noContent().build();
     }
 
 
     @PutMapping("{id}")
-    public EmailEmpresa update(@PathVariable Long id, @RequestBody EmailEmpresaDTO emailEmpresaRequest){
+    @Transactional
+    @CacheEvict(allEntries = true)
+    @Operation(summary = "Atualiza um e-mail no sistema", description = "Endpoint recebe no corpo da requisição os dados necessários para atualizar um e-mail")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados"),
+            @ApiResponse(responseCode = "200", description = "E-mail atualizado com sucesso!")
+    })
+    public ResponseEntity<EmailEmpresa> update(@PathVariable Long id, @RequestBody EmailEmpresaUpdateDTO emailEmpresaRequest){
         log.info("Atualizando e-mail de empresa id {} para {}", id, emailEmpresaRequest);
-
-        var emailEmpresaToUpdate = verificarSeExisteEmailEmpresa(id);
-        emailEmpresaToUpdate.setEmail(emailEmpresaRequest.getEmail());
-
-        return emailEmpresaRepository.save(emailEmpresaToUpdate);
-    }
-
-
-    private EmailEmpresa verificarSeExisteEmailEmpresa(Long id) {
-        return emailEmpresaRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "E-mail de empresa não encontrado" )
-                );
+        return ResponseEntity.ok(emailEmpresaService.update(id, emailEmpresaRequest));
     }
 }

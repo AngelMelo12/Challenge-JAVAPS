@@ -3,10 +3,12 @@ package com.fiap.challenge.targetcustomer.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "T_TG_TELEFONE_EMPRESA")
+@Table(name = "T_TC_TELEFONE_EMPRESA")
 @Getter
 @Setter
 @NoArgsConstructor

@@ -1,12 +1,13 @@
 package com.fiap.challenge.targetcustomer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "T_TG_EMAIL_CONTATO")
+@Table(name = "T_TC_EMAIL_CONTATO")
 @Getter
 @Setter
 @NoArgsConstructor
