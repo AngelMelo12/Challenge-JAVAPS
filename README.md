@@ -397,9 +397,9 @@ Altera o consulta com o 'id' informado.
 ## Link do vídeo de apresentação na nossa Proposta tecnológica: 
 https://youtu.be/TIfaJ7jkS3M?feature=shared
 
-##  Diagrama de Classe de entidades e Diagrama de relacionamento:
+##  Diagrama de Classe de entidades, Diagrama de relacionamento e Cronograma:
 
-Imagens estão na pasta Documentação.
+Arquivos estão adicionados na pasta Documentacao_Sprint2.
 
 
 
