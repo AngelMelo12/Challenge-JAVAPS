@@ -176,7 +176,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"idCadastro\":1,\r\n    \"email\":\"meuemail@email.com\"\r\n}",
+							"raw": "{\r\n    \"idCadastro\":1,\r\n    \"email\":\"meuemail@email.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -470,6 +470,127 @@
 				},
 				{
 					"name": "Deletar endereço de empresa",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/telefone/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"telefone",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cadastro de Consulta",
+			"item": [
+				{
+					"name": "Listar todas as consultas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/telefone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"telefone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca consulta por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/telefone/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"telefone",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar consulta de empresa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCadastro\":1,\r\n    \"ddi\":55,\r\n    \"ddd\":11,\r\n    \"telefone\":123456789,\r\n    \"tipoTelefone\":\"CELULAR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/telefone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"telefone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar consulta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCadastro\":1,\r\n    \"ddi\":55,\r\n    \"ddd\":11,\r\n    \"telefone\":9876231,\r\n    \"tipoTelefone\":\"FIXO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/telefone/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"telefone",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar consulta",
 					"request": {
 						"method": "DELETE",
 						"header": [],
